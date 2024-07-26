@@ -80,6 +80,12 @@ Run the Drizzle push
 pnpm drizzle-kit studio
 ```
 
+To specify a port
+
+```bash
+pnpm drizzle-kit studio --port 3000
+```
+
 **Run the development server:**
 
 ```bash
