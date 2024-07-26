@@ -28,6 +28,11 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+
+# ignore sqlite database files
+
+*.sqlite
+
 # vercel
 .vercel
 
