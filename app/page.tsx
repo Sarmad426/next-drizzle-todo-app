@@ -1,16 +1,34 @@
 import { db } from "@/db/drizzle";
 import { todo } from "@/db/schema";
-import { drizzle } from "drizzle-orm/libsql";
+import { ToastContainer } from "react-toastify";
 
 export default async function Home() {
+  const todos = await db.select().from(todo);
 
-  const todos = await db.select().from(todo)
-
-  console.log('Todos',todos)
+  console.log("Todos", todos);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Todo List app built with Next.js and Drizzle ORM.
+    <main className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-8 bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg shadow-md">
+        <div className="text-center mb-4">
+          <h1 className="text-2xl font-bold my-2 text-center">Todo List</h1>
+          <p className="text-gray-400">Make yourself productive</p>
+        </div>
+        {/* <TodoList />
+        <AddTodo onAdd={handleAdd} /> */}
+      </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </main>
   );
 }
