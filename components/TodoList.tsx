@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Trash } from "lucide-react";
-import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { deleteTodo, toggleTodo } from "@/actions/TodoActions";
 import { useRouter } from "next/navigation";
 import { Todo } from "@/types";
@@ -30,16 +29,14 @@ export const TodoList = ({ todos }: { todos: Todo[] }) => {
 
   return (
     <div>
-      <AnimatePresence>
-        {todos?.map((todo, index) => (
-          <TodoItem
-            key={index}
-            todo={todo}
-            onDelete={handleDelete}
-            onToggle={handleToggle}
-          />
-        ))}
-      </AnimatePresence>
+      {todos?.map((todo, index) => (
+        <TodoItem
+          key={index}
+          todo={todo}
+          onDelete={handleDelete}
+          onToggle={handleToggle}
+        />
+      ))}
 
       {todos?.length > 0 && <hr className="mt-4" />}
     </div>
@@ -53,25 +50,7 @@ interface TodoItemProps {
 }
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle }) => {
   return (
-    <motion.div
-      className="border flex items-center justify-between w-full p-2 mt-2 rounded-md"
-      initial={{
-        opacity: 0,
-        x: 50,
-      }}
-      animate={{
-        opacity: 1,
-        x: 0,
-      }}
-      exit={{
-        opacity: 0,
-        x: 50,
-      }}
-      transition={{
-        duration: 0.7,
-        ease: easeInOut,
-      }}
-    >
+    <div className="border flex items-center justify-between w-full p-2 mt-2 rounded-md">
       <div className="ml-3">
         <input
           type="checkbox"
@@ -96,6 +75,6 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle }) => {
       >
         <Trash className="w-5" />
       </button>
-    </motion.div>
+    </div>
   );
 };
