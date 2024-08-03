@@ -1,29 +1,43 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-// import { fetchTodos, deleteTodo, updateTodo } from "../actions/TodoActions";
 import { Trash } from "lucide-react";
 import { todo } from "@/db/schema";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
+import { deleteTodo, getAllTodos, toggleTodo } from "@/actions/TodoActions";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-export const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<(typeof todo)[]>();
+interface ITodo {
+  id: number;
+  title: string;
+  completed: boolean;
+}
 
-  //   useEffect(() => {
-  //     const getTodos = async () => {
-  //       const todos = await fetchTodos();
-  //       setTodos(todos);
-  //     };
-  //     getTodos();
-  //   }, []);
+export const TodoList = ({ todos }: { todos: ITodo[] }) => {
+  const router = useRouter();
 
-  //   const handleDelete = async (id: string) => {
-  //     await deleteTodo(id);
-  //     setTodos(todos?.filter((todo) => todo._id !== id));
-  //   };
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteTodo(id);
+      toast.success("Todo deleted successfully");
+      router.refresh();
+    } catch (err) {
+      console.log("Error", err);
+      toast.error("Something went wrong. Check the console");
+    }
+  };
 
-  //   const handleToggle = async (id: string, completed: boolean) => {
-  //     const updatedTodo = await updateTodo(id, completed);
-  //     setTodos(todos?.map((todo) => (todo._id === id ? updatedTodo : todo)));
-  //   };
+  const handleToggle = async (id: number, completed: boolean) => {
+    try {
+      const updatedTodo = await toggleTodo(id, completed);
+      toast.success("Todo deleted successfully");
+      router.refresh();
+    } catch (err) {
+      console.log("Error", err);
+      toast.error("Something went wrong. Check the console");
+    }
+  };
 
   return (
     <div>
@@ -32,19 +46,19 @@ export const TodoList: React.FC = () => {
           <TodoItem
             key={index}
             todo={todo}
-            // onDelete={handleDelete}
-            // onToggle={handleToggle}
+            onDelete={handleDelete}
+            onToggle={handleToggle}
           />
         ))}
       </AnimatePresence>
-      {/* @ts-ignore */}
+
       {todos?.length > 0 && <hr className="mt-4" />}
     </div>
   );
 };
 
 interface TodoItemProps {
-  todo: typeof todo;
+  todo: ITodo;
   onDelete: (id: number) => void;
   onToggle: (id: number, completed: boolean) => void;
 }
@@ -72,17 +86,16 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle }) => {
       <div className="ml-3">
         <input
           type="checkbox"
-          //   @ts-ignore
           checked={todo.completed}
           onChange={() => onToggle(todo.id, !todo.completed)}
-          id={todo.id}
+          id={todo.id.toString()}
           className="bg-white text-white"
         />
         <label
           className={`ml-4 ${
             todo.completed && "text-gray-300 dark:text-gray-400"
           } `}
-          htmlFor={todo.id}
+          htmlFor={todo.id.toString()}
         >
           {todo.title}
         </label>

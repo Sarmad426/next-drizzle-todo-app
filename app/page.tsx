@@ -1,11 +1,13 @@
+import { createTodo } from "@/actions/TodoActions";
+import AddTodo from "@/components/AddTodo";
+import { TodoList } from "@/components/TodoList";
 import { db } from "@/db/drizzle";
 import { todo } from "@/db/schema";
 import { ToastContainer } from "react-toastify";
 
 export default async function Home() {
+  // Querying todos
   const todos = await db.select().from(todo);
-
-  console.log("Todos", todos);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
@@ -14,8 +16,8 @@ export default async function Home() {
           <h1 className="text-2xl font-bold my-2 text-center">Todo List</h1>
           <p className="text-gray-400">Make yourself productive</p>
         </div>
-        {/* <TodoList />
-        <AddTodo onAdd={handleAdd} /> */}
+        <TodoList todos={todos} />
+        <AddTodo onAdd={createTodo} />
       </div>
 
       <ToastContainer
