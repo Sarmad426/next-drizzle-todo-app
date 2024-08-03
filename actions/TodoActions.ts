@@ -5,25 +5,28 @@ import {db } from '@/db/drizzle';
 import { eq } from 'drizzle-orm';
 
 interface Todo {
-  id?: number;
+  id: number;
   title: string;
-  completed?: boolean;
+  completed: boolean;
 }
 
 // Create a new todo
-export const createTodo = async (newTodo: Todo): Promise<number> => {
-  const result : Todo = await db.insert(todo).values({
-    title: newTodo.title,
-    completed: newTodo.completed ?? false
-  }).returning('id');
+export const createTodo = async (title:string): Promise<Todo> => {
+  const result : Todo[] = await db.insert(todo).values({
+    title
+  }).returning({
+    id: todo.id,
+    title: todo.title,
+    completed: todo.completed
+  });
 
-  return result[0]?.id;
+  return result[0];
 };
 
 // Get all todos
 export const getAllTodos = async (): Promise<Todo[]> => {
-  const result = await db.select().from(todo).all();
-  return result;
+  const todos = await db.select().from(todo).all();
+  return todos;
 };
 
 // Get a todo by id
@@ -33,9 +36,9 @@ export const getTodoById = async (id: number): Promise<Todo | undefined> => {
 };
 
 // Update a todo
-export const updateTodo = async (id: number, updatedTodo: Partial<Todo>): Promise<void> => {
+export const toggleTodo = async (id: number,completed:boolean): Promise<void> => {
   await db.update(todo)
-    .set(updatedTodo)
+    .set({completed})
     .where(eq(todo.id, id))
     .execute();
 };
