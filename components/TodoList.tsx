@@ -6,7 +6,6 @@ import { todo } from "@/db/schema";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { deleteTodo, getAllTodos, toggleTodo } from "@/actions/TodoActions";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 
 interface ITodo {
   id: number;
@@ -20,22 +19,18 @@ export const TodoList = ({ todos }: { todos: ITodo[] }) => {
   const handleDelete = async (id: number) => {
     try {
       await deleteTodo(id);
-      toast.success("Todo deleted successfully");
       router.refresh();
     } catch (err) {
       console.log("Error", err);
-      toast.error("Something went wrong. Check the console");
     }
   };
 
   const handleToggle = async (id: number, completed: boolean) => {
     try {
       const updatedTodo = await toggleTodo(id, completed);
-      toast.success("Todo deleted successfully");
       router.refresh();
     } catch (err) {
       console.log("Error", err);
-      toast.error("Something went wrong. Check the console");
     }
   };
 

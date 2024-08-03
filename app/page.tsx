@@ -3,7 +3,6 @@ import AddTodo from "@/components/AddTodo";
 import { TodoList } from "@/components/TodoList";
 import { db } from "@/db/drizzle";
 import { todo } from "@/db/schema";
-import { ToastContainer } from "react-toastify";
 
 export default async function Home() {
   // Querying todos
@@ -19,18 +18,6 @@ export default async function Home() {
         <TodoList todos={todos} />
         <AddTodo onAdd={createTodo} />
       </div>
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </main>
   );
 }

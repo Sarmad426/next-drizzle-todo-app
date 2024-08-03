@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
 
 interface AddTodoProps {
   onAdd: (title: string) => void;
@@ -17,12 +16,10 @@ const AddTodo: React.FC<AddTodoProps> = ({ onAdd }) => {
     e.preventDefault();
     try {
       await onAdd(title);
-      toast.success("Todo added successfully");
       router.refresh();
       setTitle("");
     } catch (err) {
       console.log("Error", err);
-      toast.error("Something went wrong. Check the console");
     }
   };
 
