@@ -47,7 +47,7 @@ const AddTodo: React.FC<AddTodoProps> = ({ onAdd }) => {
       />
       <button
         type="submit"
-        className="text-sm bg-teal-700 text-white rounded-md p-2 hover:bg-teal-600 transition-colors duration-700 cursor-pointer ease-linear disabled:cursor-not-allowed disabled:opacity-50"
+        className="text-sm bg-teal-700 text-white rounded-md p-2 hover:bg-teal-600 transition-colors duration-700 cursor-pointer ease-linear disabled:opacity-50 disabled:pointer-events-none"
         disabled={pending || title.length === 0}
       >
         Submit
