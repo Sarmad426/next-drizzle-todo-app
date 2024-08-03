@@ -3,12 +3,7 @@
 import { todo } from '@/db/schema';
 import {db } from '@/db/drizzle';
 import { eq } from 'drizzle-orm';
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { Todo } from '@/types';
 
 // Create a new todo
 export const createTodo = async (title:string): Promise<Todo> => {

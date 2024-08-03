@@ -1,19 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Trash } from "lucide-react";
-import { todo } from "@/db/schema";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
-import { deleteTodo, getAllTodos, toggleTodo } from "@/actions/TodoActions";
+import { deleteTodo, toggleTodo } from "@/actions/TodoActions";
 import { useRouter } from "next/navigation";
+import { Todo } from "@/types";
 
-interface ITodo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-export const TodoList = ({ todos }: { todos: ITodo[] }) => {
+export const TodoList = ({ todos }: { todos: Todo[] }) => {
   const router = useRouter();
 
   const handleDelete = async (id: number) => {
@@ -27,7 +21,7 @@ export const TodoList = ({ todos }: { todos: ITodo[] }) => {
 
   const handleToggle = async (id: number, completed: boolean) => {
     try {
-      const updatedTodo = await toggleTodo(id, completed);
+      await toggleTodo(id, completed);
       router.refresh();
     } catch (err) {
       console.log("Error", err);
@@ -53,7 +47,7 @@ export const TodoList = ({ todos }: { todos: ITodo[] }) => {
 };
 
 interface TodoItemProps {
-  todo: ITodo;
+  todo: Todo;
   onDelete: (id: number) => void;
   onToggle: (id: number, completed: boolean) => void;
 }
